@@ -122,6 +122,8 @@ while true
         alg_value(i,num_tested) = Effe_nom_ave(i,num_tested) + Effi(num_tested);
         if (alg_value(i,num_tested) < p1.min_value(i))
             p1.best_alg(i).sequence = sorting_sequence;
+            p1.best_alg(i).Effe = Effe_nom_ave(i,num_tested);
+            p1.best_alg(i).Effi = Effi(num_tested);
             p1.min_value(i) = alg_value(i,num_tested);
         end
     end
