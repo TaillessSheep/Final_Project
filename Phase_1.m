@@ -55,7 +55,7 @@ catch ME
         if (7~=exist('..\ProjectData','dir'))
             mkdir('..\ProjectData');
         end
-        save('phase_1_data', 'p1');
+        save('..\ProjectData\phase_1_data', 'p1');
     else
         rethrow(ME)
     end
@@ -153,7 +153,7 @@ end
 function myCleanupFun(p1)
 
 % disp('Cleaning up...')
-save('phase_1_data', 'p1');
+save('..\ProjectData\phase_1_data', 'p1');
 end
 
 
