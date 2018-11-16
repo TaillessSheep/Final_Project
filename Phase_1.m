@@ -6,7 +6,7 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   0    0      10];
+run_time = [0   0    10      20];
 
 time_check = 130;
 
