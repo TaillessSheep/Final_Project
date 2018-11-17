@@ -90,10 +90,7 @@ while true
         if (timeup(2)<0) % for hour
             timeup(1) = timeup(1) - 1;
             timeup(2) = timeup(2) + 24;
-        elseif(timeup(2)>24)
-            timeup(1) = timeup(1) + 1;
-            timeup(2) = timeup(2) - 24;
-        end
+        elseif
 
         % print out the remaining time
         disp([int2str(timeup(1)) 'D  ' int2str(timeup(2)) 'h  ' ...
