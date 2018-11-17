@@ -6,7 +6,7 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   3    0      0];
+run_time = [0   0    0      10];
 
 time_check = 130;
 
@@ -23,18 +23,19 @@ catch ME
     if (strcmp(ME.identifier,'MATLAB:load:couldNotReadFile'))
         % all the names of the data files
         data(1).name = 'Project_2_datasets/Nearly_inversely_sorted/Nearly-inversely-sorted';
-        data(2).name = 'Project_2_datasets/Nearly_sorted/Nearly_sorted';
-        data(3).name = 'Project_2_datasets/Random_large_range/Random_large_range';
-        data(4).name = 'Project_2_datasets/Random_small_range/Random_small_range';
+        data(2).name = 'Project_2_datasets/Nearly_sorted/Nearly-sorted';
+        data(3).name = 'Project_2_datasets/Random_large_range/random';
+        data(4).name = 'Project_2_datasets/Random_small_range/random';
         
         for i = (1:data_types)
             % post-fix of the input raw data file & the sorted data
-            data(i).data = xlsread([data(1).name '-inputs.csv']);
-            data(i).solu = xlsread([data(1).name '-solutions.csv']);
+            data(i).data = xlsread([data(i).name '-inputs.csv']);
+            data(i).solu = xlsread([data(i).name '-solutions.csv']);
         end
         
         save ('data_raw','data');
     else
+%         disp('jhg')
         rethrow(ME)
     end
     
