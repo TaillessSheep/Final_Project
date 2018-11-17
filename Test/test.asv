@@ -1,0 +1,11 @@
+clear;close all;clc;
+
+addpath('..')
+
+load('phase_1_data.mat');
+
+
+
+
+
+
