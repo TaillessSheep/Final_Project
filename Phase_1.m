@@ -6,14 +6,15 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   1    0      0];
+run_time = [0   3    0      0];
 
 time_check = 150;
+
+alg_size = 1000;
 
 %% predetermined value
 data_types = 4;
 time_check_count = 0;
-
 
 %% main code
 try
@@ -46,7 +47,7 @@ end
 [size_data, size_set] = size(data(1).data);
 p1.num_tested = 0; % full history
 num_tested = 0; % in the current run
-p1.min_value = 2000 * ones(4,1);
+p1.min_value = 4000 * ones(4,1);
 
 % p1.best_alg = zeros(4,1000);
 try
@@ -117,7 +118,7 @@ while true
 %% sorting and the checking the proformance
     p1.num_tested = p1.num_tested + 1;
     num_tested = num_tested + 1;
-    [sorting_sequence Effi(num_tested)] = P1_randGen_sequence(500);
+    [sorting_sequence Effi(num_tested)] = P1_randGen_sequence(alg_size);
     % sorting_sequence: the sequence of comparson
     % Effi
     
@@ -126,7 +127,7 @@ while true
             sorted = sorting(data(i).data(j,:),sorting_sequence,Effi(num_tested),size_set);
             Effe(j) = EffectivenessCheck(sorted,data(i).solu(j,:),size_set);
         end
-        Effe_nom_ave(i,num_tested) = mean(Effe)*25;
+        Effe_nom_ave(i,num_tested) = mean(Effe)*100;
         alg_value(i,num_tested) = Effe_nom_ave(i,num_tested) + Effi(num_tested);
         if (alg_value(i,num_tested) < p1.min_value(i))
             p1.best_alg(i).sequence = sorting_sequence;
@@ -159,7 +160,7 @@ end
 
 fprintf('\nTotal: %i; New test: %i \n\n', p1.num_tested,num_tested)
 for i = (1:4)
-    fprintf('ori: %f; new: %f \n', ori_min_value(i),p1.min_value(i))
+    fprintf('ori: %f; new: %f; Effi: %f;  Effe: %f \n', ori_min_value(i),p1.min_value(i),p1.best_alg(i).Effi,p1.best_alg(i).Effe)
 end
 
 end
