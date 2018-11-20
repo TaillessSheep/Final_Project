@@ -159,4 +159,4 @@ function myCleanupFun(p1)
 save('..\ProjectData\phase_1_data', 'p1');
 end
 
-
+% 7==exist('..\ProjectData','dir')
