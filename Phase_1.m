@@ -6,9 +6,9 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   0    1     60];
+run_time = [0   1    0      0];
 
-time_check = 140;
+time_check = 150;
 
 %% predetermined value
 data_types = 4;
@@ -46,7 +46,7 @@ end
 [size_data, size_set] = size(data(1).data);
 p1.num_tested = 0; % full history
 num_tested = 0; % in the current run
-p1.min_value = 2000 * ones(4);
+p1.min_value = 2000 * ones(4,1);
 
 % p1.best_alg = zeros(4,1000);
 try
@@ -70,7 +70,7 @@ start_time = start_time(3:6);
 while true
 %% time check every time_check amount of tests
     if (time_check_count == time_check)
-        cleanup = onCleanup(@() myCleanupFun(p1));
+        
         time_check_count = 0;
         % amount of time passed
         cur_time = clock;
@@ -107,7 +107,7 @@ while true
         end
         % break out of the loop
         if (stop)
-            
+            cleanup = onCleanup(@() myCleanupFun(p1));
             break;
         end
         
@@ -117,7 +117,7 @@ while true
 %% sorting and the checking the proformance
     p1.num_tested = p1.num_tested + 1;
     num_tested = num_tested + 1;
-    [sorting_sequence Effi(num_tested)] = P1_randGen_sequence();
+    [sorting_sequence Effi(num_tested)] = P1_randGen_sequence(500);
     % sorting_sequence: the sequence of comparson
     % Effi
     
@@ -166,7 +166,7 @@ end
 
 function myCleanupFun(p1)
 
-% disp('Cleaning up...')
+disp('Backed up')
 save('..\ProjectData\phase_1_data', 'p1');
 end
 

@@ -6,9 +6,9 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   0    1     60];
+run_time = [0   4    0      0];
 
-time_check = 140;
+time_check = 150;
 
 %% predetermined value
 data_types = 4;
@@ -70,7 +70,7 @@ start_time = start_time(3:6);
 while true
 %% time check every time_check amount of tests
     if (time_check_count == time_check)
-        cleanup = onCleanup(@() myCleanupFun(p1));
+        
         time_check_count = 0;
         % amount of time passed
         cur_time = clock;
@@ -90,7 +90,10 @@ while true
         if (timeup(2)<0) % for hour
             timeup(1) = timeup(1) - 1;
             timeup(2) = timeup(2) + 24;
-        elseif
+        elseif(timeup(2)>24)
+            timeup(1) = timeup(1) + 1;
+            timeup(2) = timeup(2) - 24;
+        end
 
         % print out the remaining time
         disp([int2str(timeup(1)) 'D  ' int2str(timeup(2)) 'h  ' ...
@@ -104,7 +107,7 @@ while true
         end
         % break out of the loop
         if (stop)
-            
+            cleanup = onCleanup(@() myCleanupFun(p1));
             break;
         end
         
@@ -163,7 +166,7 @@ end
 
 function myCleanupFun(p1)
 
-% disp('Cleaning up...')
+disp('Backed up')
 save('..\ProjectData\phase_1_data', 'p1');
 end
 
