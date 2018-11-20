@@ -13,7 +13,7 @@ num_tested = 1;
 
 for i = (1:4)
     for j = (1:100)
-        sorted(:,j,i) = sorting(data(i).data(j,:),p1.best_alg(i).sequence,p1.best_alg(i).Effi,size_set);
+        sorted(j,:,i) = sorting(data(i).data(j,:),p1.best_alg(i).sequence,p1.best_alg(i).Effi,size_set);
         %             Effe(j) = EffectivenessCheck(sorted(:,j,i),data(i).solu(j,:),size_set);
     end
     %         Effe_nom_ave(i,num_tested) = mean(Effe)*25;
