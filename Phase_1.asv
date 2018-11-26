@@ -6,16 +6,15 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   0    5      0];
-
-time_check = 150;
-
+run_time = [0   10    0      0];
+time_check = 200;
 alg_size = 1000;
+
+saving_file_name = 'phase_1_data_b';
 
 %% predetermined value
 data_types = 4;
 time_check_count = 0;
-
 
 %% main code
 try
@@ -52,14 +51,14 @@ p1.min_value = 4000 * ones(4,1);
 
 % p1.best_alg = zeros(4,1000);
 try
-    load('..\ProjectData\phase_1_data')
+    load(['..\ProjectData\' saving_file_name])
 catch ME
     % if there were no previous result from phase 1
     if(strcmp(ME.identifier,'MATLAB:load:couldNotReadFile'))
         if (7~=exist('..\ProjectData','dir'))
             mkdir('..\ProjectData');
         end
-        save('..\ProjectData\phase_1_data', 'p1');
+        save(['..\ProjectData\' saving_file_name], 'p1');
     else
         rethrow(ME)
     end
@@ -119,7 +118,7 @@ while true
 %% sorting and the checking the proformance
     p1.num_tested = p1.num_tested + 1;
     num_tested = num_tested + 1;
-    [sorting_sequence Effi(num_tested)] = P1_randGen_sequence(500);
+    [sorting_sequence Effi(num_tested)] = P1_randGen_sequence(alg_size);
     % sorting_sequence: the sequence of comparson
     % Effi
     
@@ -161,7 +160,7 @@ end
 
 fprintf('\nTotal: %i; New test: %i \n\n', p1.num_tested,num_tested)
 for i = (1:4)
-    fprintf('ori: %f; new: %f \n', ori_min_value(i),p1.min_value(i))
+    fprintf('ori: %f; new: %f; Effi: %f;  Effe: %f \n', ori_min_value(i),p1.min_value(i),p1.best_alg(i).Effi,p1.best_alg(i).Effe)
 end
 
 end
@@ -169,7 +168,7 @@ end
 function myCleanupFun(p1)
 
 disp('Backed up')
-save('..\ProjectData\phase_1_data', 'p1');
+save(['..\ProjectData\' saving_file_name], 'p1');
 end
 
-
+% 7==exist('..\ProjectData','dir')

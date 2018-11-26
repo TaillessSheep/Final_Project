@@ -2,7 +2,7 @@ clear;close all;clc;
 addpath('..')
 load('..\data_raw');
 
-stop_time =  35000; % seconds
+stop_time =  36000; % seconds
 
 raw = data(1).solu(1,:);
 
