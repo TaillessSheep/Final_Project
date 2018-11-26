@@ -6,11 +6,12 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   3    0      0];
-
-time_check = 150;
-
+run_time = [0   11    0      0];
+time_check = 200;
 alg_size = 1000;
+eFactor = 1250;
+
+saving_file_name = 'phase_1_data_100_1';
 
 %% predetermined value
 data_types = 4;
@@ -47,18 +48,18 @@ end
 [size_data, size_set] = size(data(1).data);
 p1.num_tested = 0; % full history
 num_tested = 0; % in the current run
-p1.min_value = 4000 * ones(4,1);
+p1.min_value = 999999 * ones(4,1);
 
 % p1.best_alg = zeros(4,1000);
 try
-    load('..\ProjectData\phase_1_data')
+    load(['..\ProjectData\' saving_file_name])
 catch ME
     % if there were no previous result from phase 1
     if(strcmp(ME.identifier,'MATLAB:load:couldNotReadFile'))
         if (7~=exist('..\ProjectData','dir'))
             mkdir('..\ProjectData');
         end
-        save('..\ProjectData\phase_1_data', 'p1');
+        save(['..\ProjectData\' saving_file_name], 'p1');
     else
         rethrow(ME)
     end
@@ -108,7 +109,7 @@ while true
         end
         % break out of the loop
         if (stop)
-            cleanup = onCleanup(@() myCleanupFun(p1));
+            cleanup = onCleanup(@() myCleanupFun(p1,saving_file_name));
             break;
         end
         
@@ -127,7 +128,7 @@ while true
             sorted = sorting(data(i).data(j,:),sorting_sequence,Effi(num_tested),size_set);
             Effe(j) = EffectivenessCheck(sorted,data(i).solu(j,:),size_set);
         end
-        Effe_nom_ave(i,num_tested) = mean(Effe)*100;
+        Effe_nom_ave(i,num_tested) = mean(Effe)*eFactor;
         alg_value(i,num_tested) = Effe_nom_ave(i,num_tested) + Effi(num_tested);
         if (alg_value(i,num_tested) < p1.min_value(i))
             p1.best_alg(i).sequence = sorting_sequence;
@@ -165,10 +166,10 @@ end
 
 end
 
-function myCleanupFun(p1)
+function myCleanupFun(p1,saving_file_name)
 
 disp('Backed up')
-save('..\ProjectData\phase_1_data', 'p1');
+save(['..\ProjectData\' saving_file_name], 'p1');
 end
 
 % 7==exist('..\ProjectData','dir')
