@@ -6,12 +6,12 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %          [day hour minute seconds]
-run_time = [0   11    0      0];
+run_time = [0   1    0      0];
 time_check = 200;
 alg_size = 1000;
 eFactor = 1250;
 
-saving_file_name = 'phase_1_data_100_1';
+saving_file_name = 'phase_1_data_10000_1';
 
 %% predetermined value
 data_types = 4;
