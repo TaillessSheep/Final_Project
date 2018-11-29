@@ -2,7 +2,7 @@ clear;close all;clc;
 
 addpath('..')
 
-load('phase_1_data.mat');
+load('phase_1_data_100_1.mat');
 
 sorting_sequence = p1.best_alg(1).sequence;
 

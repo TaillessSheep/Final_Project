@@ -1,9 +1,8 @@
 % the funciton is the generate a 2*1000 array randomly
 % with the numbers in the range of 1~100
 
-function [seq, Effi] = P1_randGen_sequence(size)
-seq = zeros(size,2);
-Effi = randi(size);
+function [seq] = P1_randGen_sequence(Effi)
+seq = zeros(Effi,2);
 
 seq(1:Effi,:) = randi(100,[Effi,2]);
 
