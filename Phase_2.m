@@ -20,9 +20,12 @@ data_types = length(data);
 % size_data: how many sets of data
 % size_set: how many elements in one set
 [size_data, size_set] = size(data(1).data);
-p1.num_tested = 0; % full history
-% p1.
-p1.min_value = 99999 * ones(4,1);
+p2.num_tested = 0; % full history
+for i=(1:data_types)
+p2.algorithm(i).count = 0;
+p2.algorithm(i).value = 99999;
+end
+% p2.min_value = 99999 * ones(4,1);
 
 % starting time of the programe
 start_time = clock;
@@ -34,7 +37,7 @@ old_Effi = randi(alg_size);
 old_algorithm = P1_randGen_sequence(old_Effi);
 % new_algorithm = old_algorithm;
 while true
-%% time check every time_check amount of tests
+%% time check every time_check amount of tests (stopping condition)
     if (time_check_count == time_check)
         
         time_check_count = 0;
@@ -73,64 +76,65 @@ while true
         end
         % break out of the loop
         if (stop)
-            cleanup = onCleanup(@() myCleanupFun(p1,saving_file_name));
+            cleanup = onCleanup(@() myCleanupFun(p2,saving_file_name));
             break;
         end
         
         
     end
 %% sorting and the checking the proformance
-    p1.num_tested = p1.num_tested + 1;
-%     num_tested = num_tested + 1;
+    p2.num_tested = p2.num_tested + 1;
+    
     [new_algorithm,new_Effi] = mutate(old_algorithm, old_Effi);
     for i = (1:data_types)
         for j = (1:size_data)
+            % sorted date(j) of data type(i) with new_algorithm
             sorted = sorting(data(i).data(j,:),new_algorithm,new_Effi,size_set);
+            % Effe: Effe of all sets in type(i)
             Effe(j) = EffectivenessCheck(sorted,data(i).solu(j,:),size_set);
         end
-        Effe_nom_ave(i,p1.num_tested) = mean(Effe)*eFactor;
-        alg_value(i,p1.num_tested) = Effe_nom_ave(i,p1.num_tested) + new_Effi;
-        if (alg_value(i,p1.num_tested) < p1.min_value(i))
-            p1.best_alg(i).sequence = new_algorithm;
-            p1.best_alg(i).Effe = Effe_nom_ave(i,p1.num_tested);
-            p1.best_alg(i).Effi = new_Effi;
-            p1.min_value(i) = alg_value(i,p1.num_tested);
+        Effe_nom_ave = mean(Effe)*eFactor;
+        alg_value = Effe_nom_ave + new_Effi;
+        if (p2.algorithm(i).count==0 ||...
+                alg_value < p2.algorithm(i).value(p2.algorithm(i).count))
+            p2.algorithm(i).count = p2.algorithm(i).count + 1;
+            p2.algorithm(i).final_algorithm= new_algorithm;
+            p2.algorithm(i).Effe(p2.algorithm(i).count) = Effe_nom_ave;
+            p2.algorithm(i).Effi(p2.algorithm(i).count) = new_Effi;
+            p2.algorithm(i).value(p2.algorithm(i).count) = alg_value;
         end
     end
-    
-    
-    
     
     time_check_count = time_check_count + 1;
 end
 
 for i = (1:data_types)
-    alg_value(i,:) = Effe_nom_ave(i,:) + new_Effi;
+%     alg_value(i,:) = Effe_nom_ave(i,:) + new_Effi;
     figure('name',['type: ' int2str(i)])
     subplot(3,1,1)
-    plot(Effe_nom_ave(i,:));
+    plot(p2.algorithm(i).Effe);
     title('Effe')
     subplot(3,1,2)
-    plot(new_Effi);
+    plot(p2.algorithm(i).Effi);
     title('Effi')
     subplot(3,1,3)
-    plot(alg_value(i,:));
+    plot(p2.algorithm(i).value);
     title('alg index')
 end
 
 
-fprintf('\nTotal: %i;\n\n', p1.num_tested)
+fprintf('\nTotal: %i;\n\n', p2.num_tested)
 for i = (1:4)
-    fprintf('%f; Effi: %f;  Effe: %f \n',p1.min_value(i),p1.best_alg(i).Effi,p1.best_alg(i).Effe)
+%     fprintf('%f; Effi: %f;  Effe: %f \n',p2.min_value(i),p2.algorithm(i).Effi,p2.algorithm(i).Effe)
 end
 
 end
 
 
-function myCleanupFun(p1,saving_file_name)
+function myCleanupFun(p2,saving_file_name)
 
 disp('Backed up')
-save(['..\ProjectData\' saving_file_name], 'p1');
+save(saving_file_name, 'p2');
 end
 
 
