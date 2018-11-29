@@ -1,0 +1,15 @@
+%          [hour minute seconds]
+time_run.std = [0    0      10];
+time_run.sec = TimeConverter(time_run.std);
+
+tic;
+
+time_left.sec = time_run.sec;
+time_left.std = time_run.std;
+
+
+while(time_left.sec>0)
+time_left.sec = time_run.sec - toc;
+time_left.std = TimeConverter(time_run.std);
+
+end
