@@ -1,5 +1,5 @@
 %          [hour minute seconds]
-time_run.std = [0    0      10];
+time_run.std = [20    0      10];
 time_run.sec = TimeConverter(time_run.std);
 
 tic;
