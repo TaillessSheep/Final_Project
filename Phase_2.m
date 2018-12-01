@@ -3,7 +3,7 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %              [hour minute seconds]
-time_run.std = [0    0      30];
+time_run.std = [0    1      30];
 % time_check = 200;
 alg_size = 1000;
 eFactor = 1250;
@@ -40,7 +40,7 @@ while time_left.sec>0
 %% sorting and the checking the proformance
     p2.num_tested = p2.num_tested + 1;
     
-    [new_algorithm,new_Effi] = mutate(old_algorithm, old_Effi);
+    [new_algorithm,new_Effi] = mutate(old_algorithm, old_Effi,100);
     for i = (1:data_types)
         for j = (1:size_data)
             % sorted date(j) of data type(i) with new_algorithm
