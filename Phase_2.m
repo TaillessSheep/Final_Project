@@ -3,7 +3,7 @@ clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
 %              [hour minute seconds]
-time_run.std = [0    0      30];
+time_run.std = [0    1      30];
 % time_check = 200;
 alg_size = 1000;
 eFactor = 25;
