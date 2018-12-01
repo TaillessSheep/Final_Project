@@ -1,10 +1,15 @@
 function out = accept(old, new, T)
 % probability =  rand;
-out = (new<old) + T*rand;
-if(out > 0.5)
+temp = rand;
+out = (new<old) + T*temp;
+
+if(out > 0.8)
+    disp([num2str(T) ' ' num2str(out)])
     out = true;
+    
 else
     out = false;
+    
 end
 
 end

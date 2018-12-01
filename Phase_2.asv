@@ -2,8 +2,8 @@ function Phase_2()
 clear; close all; clc;
 %% parameters
 % the time to run before the this scripte stops by itself
-%          [day hour minute seconds]
-time_run.sec = [0   0    30     0];
+%              [hour minute seconds]
+time_run.std = [0    30      30];
 % time_check = 200;
 alg_size = 1000;
 eFactor = 1250;
@@ -31,57 +31,12 @@ old_algorithm = P1_randGen_sequence(old_Effi);
 % new_algorithm = old_algorithm;
 
 % starting time of the programe
-time_run. = TimeConverter()
-start_time = clock;
-start_time = start_time(3:6);
-
-
-while true
-%% time check every time_check amount of tests (stopping condition)
-    if (time_check_count == time_check)
-        
-        time_check_count = 0;
-        % amount of time passed
-        cur_time = clock;
-        diff_time = cur_time(3:6) - start_time; 
-        % difference between passed time and required run time
-        timeup = time_run - diff_time;
-        % removing the incorrect time value
-        for i = [4,3] % for minute and second
-            if (timeup(i)<0)
-                timeup(i-1) = timeup(i-1) - 1;
-                timeup(i) = timeup(i) + 60;
-            elseif (timeup(i)>60)
-                timeup(i-1) = timeup(i-1) + 1;
-                timeup(i) = timeup(i) - 60;
-            end
-        end
-        if (timeup(2)<0) % for hour
-            timeup(1) = timeup(1) - 1;
-            timeup(2) = timeup(2) + 24;
-        elseif(timeup(2)>24)
-            timeup(1) = timeup(1) + 1;
-            timeup(2) = timeup(2) - 24;
-        end
-
-        % print out the remaining time
-        disp([int2str(timeup(1)) 'D  ' int2str(timeup(2)) 'h  ' ...
-            int2str(timeup(3)) 'm  ' int2str(timeup(4)) 's'])
-        
-        % if the remaining time is negative
-        if (timeup(1)<0)
-            stop = true;
-        else
-            stop = false;
-        end
-        % break out of the loop
-        if (stop)
-            cleanup = onCleanup(@() myCleanupFun(p2,saving_file_name));
-            break;
-        end
-        
-        
-    end
+time_run.sec = TimeConverter(time_run.std);
+time_left.sec = time_run.sec;
+time_left.std = time_run.std;
+old_sec = time_run.sec;
+tic;
+while time_left.sec>0
 %% sorting and the checking the proformance
     p2.num_tested = p2.num_tested + 1;
     
@@ -95,8 +50,9 @@ while true
         end
         Effe_nom_ave = mean(Effe)*eFactor;
         alg_value = Effe_nom_ave + new_Effi;
-        if (p2.algorithm(i).count==0 ||...
-                alg_value < p2.algorithm(i).value(p2.algorithm(i).count))
+        if (p2.algorithm(i).count==0 ||...  %% if it is the first tested algorithm
+            accept(p2.algorithm(i).value(p2.algorithm(i).count), alg_value, time_left.sec/time_run.sec))
+%                 alg_value < p2.algorithm(i).value(p2.algorithm(i).count))
             p2.algorithm(i).count = p2.algorithm(i).count + 1;
             p2.algorithm(i).final_algorithm= new_algorithm;
             p2.algorithm(i).Effe(p2.algorithm(i).count) = Effe_nom_ave;
@@ -105,9 +61,21 @@ while true
         end
     end
     
-    time_check_count = time_check_count + 1;
+%% time control(terminating condition)
+    time_left.sec = time_run.sec - toc;
+    time_left.std = TimeConverter(time_left.sec);
+    if(old_sec - time_left.sec>=1)
+        fprintf('%ih %im %is\n',time_left.std(1),time_left.std(2),time_left.std(3))
+        old_sec = time_left.sec;
+    end
 end
 
+%% back up
+disp('Backed up')
+save(saving_file_name, 'p2');
+
+
+%% display the result
 for i = (1:data_types)
 %     alg_value(i,:) = Effe_nom_ave(i,:) + new_Effi;
     figure('name',['type: ' int2str(i)])
@@ -122,7 +90,6 @@ for i = (1:data_types)
     title('alg index')
 end
 
-
 fprintf('\nTotal: %i;\n\n', p2.num_tested)
 for i = (1:4)
 %     fprintf('%f; Effi: %f;  Effe: %f \n',p2.min_value(i),p2.algorithm(i).Effi,p2.algorithm(i).Effe)
@@ -130,11 +97,5 @@ end
 
 end
 
-
-function myCleanupFun(p2,saving_file_name)
-
-disp('Backed up')
-save(saving_file_name, 'p2');
-end
 
 
