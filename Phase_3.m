@@ -2,7 +2,7 @@ function Phase_3()
 clear; close all; clc;
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_amo = 100;
+alg_amo = 10;
 
 alg_size = 1000;
 eFactor = 3000;
@@ -46,7 +46,7 @@ while (sum(alg_count >= alg_amo) < data_types)
         Effe_nom_ave = mean(Effe)*eFactor;
         alg_value = Effe_nom_ave + new_Effi;
         if (p3.algorithm(i).count==0 ||...  %% if it is the first tested algorithm
-            accept(p3.algorithm(i).value(p3.algorithm(i).count), alg_value, max(min(alg_count(i)/alg_amo,1),0)))
+            accept(p3.algorithm(i).value(p3.algorithm(i).count), alg_value, alg_count(i)/alg_amo))
 %                 alg_value < p3.algorithm(i).value(p3.algorithm(i).count))
             p3.algorithm(i).count = p3.algorithm(i).count + 1;
             alg_count(i) = alg_count(i) + 1;
