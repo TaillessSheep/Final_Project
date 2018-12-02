@@ -5,7 +5,7 @@ function out = accept(old, new, T)
 % T2 = sqrt(1-T1^2);
 % T3 = 1-T2;
 
-T3 = 1-T;
+T3 = (1-T)*2;
 out = (new<old) + T3*rand;
 
 if(out > 0.5)

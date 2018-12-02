@@ -2,7 +2,7 @@ clear;close all;clc;
 addpath('..')
 load('..\data_raw');
 
-stop_time =  36000; % seconds
+stop_time =  300; % seconds
 
 raw = data(1).solu(1,:);
 
@@ -28,7 +28,7 @@ while (toc < stop_time)
     index = randperm(100);
     new = raw(index);   
     
-    Effe = EffectivenessCheck(new,raw,100);
+    Effe = EffectivenessCheck1_test(new,raw,100);
     if (Effe>max_Effe)
         max_Effe = Effe;
         best_index = index;
