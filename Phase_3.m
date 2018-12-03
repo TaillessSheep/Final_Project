@@ -2,7 +2,7 @@ function Phase_3()
 clear; close all; clc;
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_amo = 10;
+alg_amo = 50;
 
 alg_size = 1000;
 eFactor = 3000;
@@ -16,23 +16,24 @@ data_types = length(data);
 % size_data: how many sets of data
 % size_set: how many elements in one set
 [size_data, size_set] = size(data(1).data);
+
+% initial algorithm
+init_Effi = randi(alg_size);
+init_algorithm = P1_randGen_sequence(init_Effi);
+
 p3.num_tested = 0; % full history
 for i=(1:data_types)
 p3.algorithm(i).count = 0;
 p3.algorithm(i).value = 99999;
+p3.algorithm(i).final_algorithm = init_algorithm;
+p3.algorithm(i).final_Effi = init_Effi;
 end
 alg_count = zeros(1,data_types);
-
-% initial algorithm
-old_Effi = randi(alg_size);
-old_algorithm = P1_randGen_sequence(old_Effi);
-
 
 while (sum(alg_count >= alg_amo) < data_types)
 %% sorting and the checking the proformance
     p3.num_tested = p3.num_tested + 1;
-    
-    [new_algorithm,new_Effi] = mutate(old_algorithm, old_Effi,200);
+    [new_algorithm,new_Effi] = mutate(p3.algorithm(i).final_algorithm, p3.algorithm(i).final_Effi,200);
     for i = (1:data_types)
         if(alg_count(i) == alg_amo)
             continue
@@ -50,7 +51,9 @@ while (sum(alg_count >= alg_amo) < data_types)
 %                 alg_value < p3.algorithm(i).value(p3.algorithm(i).count))
             p3.algorithm(i).count = p3.algorithm(i).count + 1;
             alg_count(i) = alg_count(i) + 1;
-            p3.algorithm(i).final_algorithm= new_algorithm;
+            p3.algorithm(i).final_algorithm = new_algorithm;
+            p3.algorithm(i).final_Effe = Effe_nom_ave;
+            p3.algorithm(i).final_Effi = new_Effi;
             p3.algorithm(i).Effe(p3.algorithm(i).count) = Effe_nom_ave;
             p3.algorithm(i).Effi(p3.algorithm(i).count) = new_Effi;
             p3.algorithm(i).value(p3.algorithm(i).count) = alg_value;
