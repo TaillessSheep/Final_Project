@@ -6,7 +6,7 @@ tic
 alg_amo = 50;
 
 alg_size = 1000;
-eFactor = 3000;
+eFactor = 4000;
 
 saving_file_name = 'phase_3_data';
 
