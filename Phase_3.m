@@ -50,7 +50,7 @@ while (sum(alg_count >= alg_amo) < data_types)
         Effe_nom_ave = mean(Effe)*eFactor;
         alg_value = Effe_nom_ave + new_Effi;
         if (p3.algorithm(i).count==0 ||...  %% if it is the first tested algorithm
-            accept(p3.algorithm(i).value(p3.algorithm(i).count), alg_value, alg_count(i)/alg_amo))
+            accept(p3.algorithm(i).value(p3.algorithm(i).count), alg_value, alg_count(i)/alg_amo,i))
 %                 alg_value < p3.algorithm(i).value(p3.algorithm(i).count))
             p3.algorithm(i).count = p3.algorithm(i).count + 1;
             alg_count(i) = alg_count(i) + 1;
