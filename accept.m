@@ -10,7 +10,7 @@ T3 = 1-T2;
 
 % T3 = (1-T)*1;
 
-out = (new<old) + T3*rand;
+out = (new<old) + T3*rand*(1/3);
 
 if(out > rand)
 %     fprintf('%i: %f  %f\n',i,T3,out);
