@@ -3,7 +3,7 @@ clear; close all; clc;
 tic
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_amo = 1000;
+alg_amo = 500;
 
 alg_size = 1000;
 eFactor = 4000;
@@ -72,25 +72,33 @@ save(['..\ProjectData\' saving_file_name], 'p3');
 
 %% display the result
 for i = (1:data_types)
-%     alg_value(i,:) = Effe_nom_ave(i,:) + new_Effi;
     figure('name',['type: ' int2str(i)])
-    subplot(3,1,1)
+    subplot(4,1,1)
     plot(p3.algorithm(i).Effe);
     title('Effe')
-    subplot(3,1,2)
+    subplot(4,1,2)
     plot(p3.algorithm(i).Effi);
     title('Effi')
-    subplot(3,1,3)
+    subplot(4,1,3)
     plot(p3.algorithm(i).value);
     title('alg index')
 end
 
-fprintf('\nTotal: %i;\n\n', p3.num_tested)
-for i = (1:4)
-%     fprintf('%f; Effi: %f;  Effe: %f \n',p3.min_value(i),p3.algorithm(i).Effi,p3.algorithm(i).Effe)
+fprintf('\nTested: %i;\n\n', p3.num_tested)
+sum = 0;
+for i = (1:data_types)
+    sum = sum + p3.num_tested(i);
 end
+fprintf('\nTotal: %i;\n\n', sum)
+
 toc
 
-
-
+% sum = zeros(1,size_set);
+%     for j = (1:size_data)
+%         % sorted date(j) of data type(i) with new_algorithm
+%         sorted = sorting(data(i).data(j,:),p3.algorithm(i).final_algorithm, p3.algorithm(i).final_Effi,size_set);
+%         sum = sum + sorted;
+%     end
+%     subplot(4,1,4)
+%     stem(sum);
 
