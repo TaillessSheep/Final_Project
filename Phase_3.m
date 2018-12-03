@@ -3,10 +3,10 @@ clear; close all; clc;
 tic
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_amo = 5000;
+alg_amo = 300;
 
 alg_size = 1000;
-eFactor = 4000;
+eFactor = 3000;
 
 saving_file_name = 'phase_3_data';
 
