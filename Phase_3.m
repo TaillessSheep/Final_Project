@@ -3,7 +3,7 @@ clear; close all; clc;
 tic
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_amo = 1000;
+alg_amo = 500;
 
 alg_size = 1000;
 eFactor = 4000;
@@ -83,6 +83,7 @@ for i = (1:data_types)
     subplot(3,1,3)
     plot(p3.algorithm(i).value);
     title('alg index')
+    
 end
 
 fprintf('\nTotal: %i;\n\n', p3.num_tested)
