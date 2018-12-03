@@ -72,6 +72,7 @@ save(['..\ProjectData\' saving_file_name], 'p3');
 
 %% display the result
 for i = (1:data_types)
+    sum = zeros(1,size_set);
     figure('name',['type: ' int2str(i)])
     subplot(4,1,1)
     plot(p3.algorithm(i).Effe);
@@ -82,6 +83,13 @@ for i = (1:data_types)
     subplot(4,1,3)
     plot(p3.algorithm(i).value);
     title('alg index')
+    for j = (1:size_data)
+        % sorted date(j) of data type(i) with new_algorithm
+        sorted = sorting(data(i).data(j,:),p3.algorithm(i).final_algorithm, p3.algorithm(i).final_Effi,size_set);
+        sum = sum + sorted;
+    end
+    subplot(4,1,4)
+    stem(sum);
 end
 
 fprintf('\nTested: %i;\n\n', p3.num_tested)
@@ -93,12 +101,4 @@ fprintf('\nTotal: %i;\n\n', sum)
 
 toc
 
-% sum = zeros(1,size_set);
-%     for j = (1:size_data)
-%         % sorted date(j) of data type(i) with new_algorithm
-%         sorted = sorting(data(i).data(j,:),p3.algorithm(i).final_algorithm, p3.algorithm(i).final_Effi,size_set);
-%         sum = sum + sorted;
-%     end
-%     subplot(4,1,4)
-%     stem(sum);
 
