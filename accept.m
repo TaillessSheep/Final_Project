@@ -2,9 +2,10 @@ function out = accept(old, new, T,i)
 % probability =  rand;
 % temp = rand;
 
-T1 = 1-T;
+T1 = T;
 T2 = sqrt(1-T1^2);
-T3 = 1-T2;
+% T3 = 1-T2;
+T3 = T2;
 
 % T3 = (1-T)*1;
 
