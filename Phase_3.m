@@ -72,18 +72,16 @@ save(['..\ProjectData\' saving_file_name], 'p3');
 
 %% display the result
 for i = (1:data_types)
-%     alg_value(i,:) = Effe_nom_ave(i,:) + new_Effi;
     figure('name',['type: ' int2str(i)])
-    subplot(3,1,1)
+    subplot(4,1,1)
     plot(p3.algorithm(i).Effe);
     title('Effe')
-    subplot(3,1,2)
+    subplot(4,1,2)
     plot(p3.algorithm(i).Effi);
     title('Effi')
-    subplot(3,1,3)
+    subplot(4,1,3)
     plot(p3.algorithm(i).value);
     title('alg index')
-    
 end
 
 fprintf('\nTotal: %i;\n\n', p3.num_tested)
