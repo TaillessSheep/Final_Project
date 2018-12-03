@@ -1,4 +1,4 @@
-function Phase_3()
+
 clear; close all; clc;
 tic
 %% parameters
@@ -90,7 +90,7 @@ for i = (1:4)
 %     fprintf('%f; Effi: %f;  Effe: %f \n',p3.min_value(i),p3.algorithm(i).Effi,p3.algorithm(i).Effe)
 end
 toc
-end
+
 
 
 
