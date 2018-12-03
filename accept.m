@@ -1,4 +1,4 @@
-function out = accept(old, new, T)
+function out = accept(old, new, T,i)
 % probability =  rand;
 % temp = rand;
 
@@ -10,7 +10,7 @@ T3 = 1-T2;
 out = (new<old) + T3*rand;
 
 if(out > 0.5)
-    fprintf('%f  %f\n',T3,out);
+    fprintf('%i: %f  %f\n',i,T3,out);
     out = true;
     
 else
