@@ -1,9 +1,10 @@
-function Phase_3()
+% using multi cores to run
+
+
 clear; close all; clc;
-tic
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_amo = 50;
+alg_amo = 10;
 
 alg_size = 1000;
 eFactor = 3000;
@@ -22,9 +23,8 @@ data_types = length(data);
 init_Effi = randi(alg_size);
 init_algorithm = P1_randGen_sequence(init_Effi);
 
- % full history
+p3.num_tested = 0; % full history
 for i=(1:data_types)
-p3.num_tested(i) = 0;
 p3.algorithm(i).count = 0;
 p3.algorithm(i).value = 99999;
 p3.algorithm(i).final_algorithm = init_algorithm;
@@ -34,13 +34,12 @@ alg_count = zeros(1,data_types);
 
 while (sum(alg_count >= alg_amo) < data_types)
 %% sorting and the checking the proformance
-    
+    p3.num_tested = p3.num_tested + 1;
+    [new_algorithm,new_Effi] = mutate(p3.algorithm(i).final_algorithm, p3.algorithm(i).final_Effi,200);
     for i = (1:data_types)
         if(alg_count(i) == alg_amo)
             continue
         end
-        p3.num_tested(i) = p3.num_tested(i) + 1;
-        [new_algorithm,new_Effi] = mutate(p3.algorithm(i).final_algorithm, p3.algorithm(i).final_Effi,200);
         for j = (1:size_data)
             % sorted date(j) of data type(i) with new_algorithm
             sorted = sorting(data(i).data(j,:),new_algorithm,new_Effi,size_set);
@@ -62,6 +61,8 @@ while (sum(alg_count >= alg_amo) < data_types)
             p3.algorithm(i).value(p3.algorithm(i).count) = alg_value;
         end
     end
+    
+%% terminating condition: check whether alg count has reach requirment
 
 end
 
@@ -85,12 +86,9 @@ for i = (1:data_types)
     title('alg index')
 end
 
-fprintf('\nTotal: %i;\n\n', p3.num_tested)
-for i = (1:4)
-%     fprintf('%f; Effi: %f;  Effe: %f \n',p3.min_value(i),p3.algorithm(i).Effi,p3.algorithm(i).Effe)
-end
-toc
-end
+
+
+%% functions ------------------------------------------------------------------------------------------
 
 
 
