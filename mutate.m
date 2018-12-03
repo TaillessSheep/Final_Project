@@ -30,7 +30,7 @@ switch(mutation)
             Effi = Effi + 1;
         end
     case 3  % deleting
-        N = rand_nor(Effi/2);
+        N = rand_nor(Effi/3);
         for i = (1:N)
             pos = randi(Effi);
             % shift everything left by one
