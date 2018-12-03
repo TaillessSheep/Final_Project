@@ -15,7 +15,7 @@ switch(mutation)
             algorithm(pos,:) = temp;
         end
     case 2  % adding
-        N = rand_nor(size(algorithm,1)-Effi);
+        N = rand_nor((size(algorithm,1)-Effi)/2);
         for i = (1:N)
             pos = randi(Effi);
             % shift everything to right by one
