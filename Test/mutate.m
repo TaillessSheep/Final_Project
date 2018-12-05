@@ -1,6 +1,4 @@
 function  [algorithm,Effi] = mutate(algorithm ,Effi,max)
-
-
 mutation = randi(3);
 
 switch(mutation)
@@ -15,7 +13,7 @@ switch(mutation)
             algorithm(pos,:) = temp;
         end
     case 2  % adding
-        N = rand_nor((size(algorithm,1)-Effi)/2);
+        N = rand_nor((size(algorithm,1)-Effi));
         for i = (1:N)
             pos = randi(Effi);
             % shift everything to right by one
