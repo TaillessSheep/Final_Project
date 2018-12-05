@@ -2,7 +2,7 @@ clear; close all; clc;
 tic
 %% parameters
 % find at least alg_amo amount of alg before stopping
-alg_max = 100;
+alg_max = 1000;
 
 alg_size = 1000;
 eFactor = 4000;
